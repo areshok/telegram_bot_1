@@ -1,0 +1,37 @@
+
+    <ul class="nav flex-column nav-pills my-3">
+        <li class="nav-item">
+            <a class="nav-link link-dark 
+            {% if request.resolver_match.view_name == 'product:product_list' %}active{% endif %}" 
+            href="{% url 'product:product_list' %}">Товары</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link link-dark 
+            {% if request.resolver_match.view_name == 'product:product_create' %}active{% endif %}" 
+            href="{% url 'product:product_create' %}">Создать товар</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link link-secondary" href="#">Отзывы</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+        <li>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Админка
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="#">Пользователи</a></li>
+                <li><a class="dropdown-item" href="#">Все отзывы</a></li>
+                <li><a class="dropdown-item" href="#">Отчеты</a></li>
+                <li><a class="dropdown-item" href="{% url 'product:marketplace_list' %}">Маркетплесы</a></li>
+            </ul>
+        </li>
+
+
+    </ul>
+
+<!-- 
+btn btn-secondary float-start
+nav-link link-dark
+-->

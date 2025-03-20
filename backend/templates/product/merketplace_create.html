@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавление маркеплейса{% endblock %}
+
+{% block content %}
+<div class='contianer mt-3 border border-dark '>
+    <!-- хуй знает как еще сделать нормально по центру блядский текст -->
+    <div class='row my-2'>
+        <div class='col text-center'>
+            <p>Добавление маркетплейса</p>
+        </div>    
+    </div>
+    <form method='post'>
+        {% csrf_token %}    
+        <div class='row my-3 justify-content-center align-items-center'>
+            <div class='col-1'>
+                {{ form.name.label }}
+            </div>
+            <div class='col-3'>
+                {{ form.name }}
+            </div>    
+        </div>
+        <div class='row my-3'>
+            <div class='col text-center'>
+                <button type='submit' class='btn btn-primary'>Добавить</button>
+            </div>
+        </div>    
+
+    </form>    
+</div>
+{% endblock %}

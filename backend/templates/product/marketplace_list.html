@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Список маркетплейсов{% endblock %}
+
+{% block content %}
+<div class='row my-2'>
+    <div class='col-1'>
+        <a class="btn btn-primary text-nowrap" href="{% url 'product:marketplace_create' %}" role="button">Добавить маркетплейс</a>
+    </div>
+</div>
+
+<div class='row my-2'>
+    {% if marketplaces %}
+        <table class='table table-striped table-hover table-bordered align-middle '>
+            <thead>
+                <th class='text-center'>id</th>
+                <th class='text-center'>Название</th>
+                <th class='text-center'>Удалить</th>
+            </thead>
+            <tbody>
+                {% for marketplace in marketplaces %}
+                    <tr>
+                        <td class='text-center'>{{ marketplace.id }}</td>  
+                        <td class='text-center'>{{ marketplace.name }}</td>  
+                        <td class='text-center'>
+                            <a class="btn btn-primary text-nowrap" href="{% url 'product:marketplace_delete' marketplace.id %}" role="button">Удалить</a>
+                        </td>  
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+    <p>Нет маркетплейсов</p>
+    {% endif %}
+</div>
+
+{% endblock %}

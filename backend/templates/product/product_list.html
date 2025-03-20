@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Список товаров
+{% endblock %}
+
+{% block content %}
+    <div class='row my-3'>
+        <table class='table table-striped table-hover table-bordered'>
+            <thead>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Qrcode</th>
+                <th>Редактировать</th>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <th>Qrcode</th>
+                        <td><a role="button" class="btn btn-primary" href='{% url 'product:product_edit' %}'>Редактировать</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
