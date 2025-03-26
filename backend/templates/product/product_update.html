@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактировать товар{% endblock %}
+
+{% block content %}
+    <form method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+
+        {{ formset.management_form }}
+        <table>
+            {% for form in formset %}
+                <tr>
+                    <td>{{ form.id }}</td>
+                    <td>{{ form.marketplace_id.label_tag }} {{ form.marketplace_id }}</td>
+                    <td>{{ form.url.label_tag }} {{ form.url }}</td>
+                    <td>{{ form.DELETE }}</td> <!-- Кнопка удаления -->
+                </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">Сохранить</button>
+    </form>
+
+{% endblock %}

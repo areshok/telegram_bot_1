@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+О товаре
+{% endblock %}
+
+{% block content %}
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+
+    <h2>Ссылки на маркетплейсы</h2>
+    {% if marketplaces %}
+        <ul>
+            {% for marketplace in marketplaces %}
+                <li>
+                    {{ marketplace.marketplace_id.name }} <a href='{{ marketplace.url }}'>{{ marketplace.url}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <p>Редактировать</p>
+{% endblock %}

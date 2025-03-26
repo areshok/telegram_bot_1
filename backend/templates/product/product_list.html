@@ -6,12 +6,18 @@
 
 {% block content %}
     <div class='row my-3'>
+        поиск
+    </div>
+
+    <div class='row my-3'>
         <table class='table table-striped table-hover table-bordered'>
             <thead>
                 <th>Название</th>
                 <th>Описание</th>
                 <th>Qrcode</th>
                 <th>Редактировать</th>
+                <th>Скачать Qrcode</th>
+                <th>Создать Qrcode</th>
             </thead>
             <tbody>
                 {% for product in products %}
@@ -19,7 +25,9 @@
                         <td>{{ product.name }}</td>
                         <td>{{ product.description }}</td>
                         <th>Qrcode</th>
-                        <td><a role="button" class="btn btn-primary" href='{% url 'product:product_edit' %}'>Редактировать</a></td>
+                        <td><a role="button" class="btn btn-primary" href='{% url 'product:product_detail' product.id %}'>Просмотр</a></td>
+                        <th><a role="button" class="btn btn-primary" href='{% url 'product:qrcode_download' product.id %}'>Скачать</a></th>
+                        <th><a role="button" class="btn btn-primary" href=''>Создать</a></th>
                     </tr>
                 {% endfor %}
             </tbody>

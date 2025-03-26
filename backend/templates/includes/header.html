@@ -1,12 +1,12 @@
-            <nav class="navbar navbar-dark bg-dark ">
-                <div class='col-11'>
-                    <a class="navbar-brand" href=''>Название компании</a>
-                </div>
-                <div class='col-1'>
-                    <ul class="list-group list-group-horizontal">
-                        <li class="list-group-item">{{ request.user.username }}</li>
-                        <li class="list-group-item"><a  href=''>Выход</a></li>
-                    <ul>
-                </div>
-            </nav>
+<nav class="navbar navbar-dark bg-dark d-flex justify-content-between align-items-center w-100">            
+    <div class='col-auto'>
+        <a class="navbar-brand" href='{% url 'product:product_list' %}'>Название компании</a>
+    </div>
 
+    <div class='col-auto'>
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">{{ request.user.username }}</li>
+            <li class="list-group-item"><a  href=''>Выход</a></li>
+        </ul>
+    </div>
+</nav>
