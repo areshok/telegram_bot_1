@@ -24,6 +24,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'account',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,7 +33,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'product',
     'tgm',
-    'account',
+    'report',
+
 ]
 
 MIDDLEWARE = [
@@ -45,7 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend.urls'
+
 
 TEMPLATEST_DIR = os.path.join(BASE_DIR, 'templates')
 
@@ -124,5 +126,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 T_BOT_TOKEN = os.getenv("T_BOT_TOKEN")
+
+
+LOGIN_URL = 'account:login'
+ROOT_URLCONF = 'backend.urls'
 
 LOGIN_REDIRECT_URL = '/'

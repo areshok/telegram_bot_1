@@ -11,6 +11,7 @@ from .models import Product, Marketplace, ProductMarketplace
 from .forms import ProductFormCreate, MarketplaceFormCreate, ProductFormUpdate, ProductMarketplaceForm
 from account.mixins import AdminRequriedMixin
 
+
 # Товары
 class ProductDetail(LoginRequiredMixin, DetailView):
     model = Product
@@ -123,9 +124,11 @@ class QrcodeDowdnload(LoginRequiredMixin, View):
             )
             return response
 
+
 class QrcodeGenerate(LoginRequiredMixin, View):
     "Создать Qrcod"
     pass
+
 
 # Маркетплейсы
 class MarketplaceList(AdminRequriedMixin, ListView):

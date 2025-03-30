@@ -9,7 +9,9 @@ class Product(models.Model):
         blank=True,
         null=True,
     )
-
+    # date_create   -date_create
+    def __str__(self):
+        return self.name
 
 class Marketplace(models.Model):
     name = models.CharField(max_length=100)

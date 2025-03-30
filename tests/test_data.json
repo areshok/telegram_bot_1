@@ -1,0 +1,11 @@
+{
+    "user": {
+        "login": "user",
+        "password": "password"
+    },
+    "product": {
+        "name": "product_name",
+        "description": "product_description"
+    }
+    
+}
