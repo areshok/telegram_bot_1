@@ -13,6 +13,8 @@ import dotenv
 
 import params
 
+import pprint
+
 dotenv.load_dotenv('test.env')
 
 
@@ -46,7 +48,9 @@ class SimpleUserTest(unittest.TestCase):
 
     def tearDown(self):
         result = "УСПЕШНО" if self._outcome.success else "ПРОВАЛЕН"
-        print(f"Тест завершён: {self.id()} - {result}")
+        print(f'{self._testMethodName} - {self._outcome.result}')
+        #pprint.pprint(self._outcome.result.errors)
+        #print(f"Тест завершён: {self.id()} - {result} - {self._outcome.result}")
 
     def get_url(self, namespace):
         url = params.urls.get(namespace)
@@ -58,7 +62,7 @@ class SimpleUserTest(unittest.TestCase):
 
 
     def test_1_log_in(self):
-        "Тест входа в систему"
+        "Тест входа в систему обычного пользователя"
         self.browser.get(self.base_url)
 
         username = self.browser.find_element(By.ID, 'id_username')
@@ -72,7 +76,7 @@ class SimpleUserTest(unittest.TestCase):
         self.assertEqual(current_url, 'http://127.0.0.1:8000/product/')
 
     def test_2_create_product(self):
-        "Тест создание товара"
+        "Тест создание товара обычным пользователем"
 
         url = self.get_url('product:product_create')
         self.browser.get(url)
@@ -89,6 +93,8 @@ class SimpleUserTest(unittest.TestCase):
         time.sleep(1)
         # не завершено
 
+    def test_test(self):
+        self.assertEqual(1,2)
 
     def test_33_product_list_content(self):
         pass

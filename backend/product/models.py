@@ -9,7 +9,11 @@ class Product(models.Model):
         blank=True,
         null=True,
     )
-    # date_create   -date_create
+    date_create = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return self.name
 
