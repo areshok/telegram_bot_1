@@ -20,16 +20,18 @@
                 <th>Создать Qrcode</th>
             </thead>
             <tbody>
-                {% for product in products %}
-                    <tr>
-                        <td>{{ product.name }}</td>
-                        <td>{{ product.description }}</td>
-                        <th>Qrcode</th>
-                        <td><a role="button" class="btn btn-primary" href='{% url 'product:product_detail' product.id %}'>Просмотр</a></td>
-                        <th><a role="button" class="btn btn-primary" href='{% url 'product:qrcode_download' product.id %}'>Скачать</a></th>
-                        <th><a role="button" class="btn btn-primary" href=''>Создать</a></th>
-                    </tr>
-                {% endfor %}
+                {% if products %}
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.description }}</td>
+                            <th>Qrcode</th>
+                            <td><a role="button" class="btn btn-primary" href='{% url 'product:product_detail' product.id %}'>Просмотр</a></td>
+                            <th><a role="button" class="btn btn-primary" href='{% url 'product:qrcode_download' product.id %}'>Скачать</a></th>
+                            <th><a role="button" class="btn btn-primary" href=''>Создать</a></th>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </div>

@@ -1,8 +1,8 @@
 from django.db import models
-
+from .validation import SingleCharacterValidator, MinCharacterValidator
 
 class Product(models.Model):
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250, validators=[MinCharacterValidator(2),])
     description = models.TextField()
     qrcode = models.ImageField(
         upload_to='qrcode/',
