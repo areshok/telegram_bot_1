@@ -1,9 +1,15 @@
 from django.db import models
 from .validation import SingleCharacterValidator, MinCharacterValidator
+from django.core.validators import URLValidator
 
 class Product(models.Model):
-    name = models.CharField(max_length=250, validators=[MinCharacterValidator(2),])
-    description = models.TextField()
+    name = models.CharField(
+        max_length=250,
+        validators=[MinCharacterValidator(2),],
+    )
+    description = models.TextField(
+        validators=[MinCharacterValidator(2)],
+    )
     qrcode = models.ImageField(
         upload_to='qrcode/',
         blank=True,
@@ -18,7 +24,10 @@ class Product(models.Model):
         return self.name
 
 class Marketplace(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(
+        max_length=100,
+        validators=[MinCharacterValidator(2)],
+        )
 
     def __str__(self):
         return self.name
@@ -27,4 +36,4 @@ class Marketplace(models.Model):
 class ProductMarketplace(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     marketplace_id = models.ForeignKey(Marketplace, on_delete=models.CASCADE)
-    url = models.TextField()
+    url = models.URLField()
