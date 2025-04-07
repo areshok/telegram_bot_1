@@ -4,26 +4,86 @@ from django.urls import reverse
 # Create your tests here.
 
 
-class ProductTestCase(TestCase):
+class ProductListTest(TestCase):
+    "Текст кейст product_list"
 
-    def test_template_namespace(self):
-        "Проверка шаблонов и namespace на соответсвие"
+    def test_template(self):
+        ''
+        self.fail('Не сделанно')
 
-        template_namespace = {
-            'product/product_list.html': reverse('product:product_list'),
-            'product/product_update.html': '',
-            'product/product_dettail.html': '',
-            'product/product_create.html': '',
-            'product/marketplace_list': '',
-            'product/marketplace_create.html': '',
-        }
-        pass
+    def test_context(self):
+        ''
+        self.fail('Не сделанно')
 
+    def test_pagination(self):
+        ''
+        self.fail('Не сделанно')
 
-
-
-
-
+    def test_permission(self):
+        ''
+        self.fail('Не сделанно')
 
 
+class ProductDetailTest(TestCase):
+    ''
+
+    def test_template(self):
+        ''
+        self.fail('Не сделанно')
+
+    def test_context(self):
+        ''
+        self.fail('Не сделанно')
+
+    def test_permission(self):
+        ''
+        self.fail('Не сделанно')       
+
+
+class ProductCreateTest(TestCase):
+    ''
+
+    def test_template(self):
+        ''
+        self.fail('Не сделанно')
+
+    def test_context(self):
+        ''
+        self.fail('Не сделанно')
+
+    def test_permission(self):
+        ''
+        self.fail('Не сделанно')
+
+
+class ProductUpdateTest(TestCase):
+    ''
+
+    def test_template(self):
+        ''
+        self.fail('Не сделанно')
+
+    def test_context(self):
+        ''
+        self.fail('Не сделанно')
+
+    def test_permission(self):
+        ''
+        self.fail('Не сделанно')
+
+
+class ProductDeleteTest(TestCase):
+    ''
+
+    def test_template(self):
+        ''
+        self.fail('Не сделанно')
+
+    def test_context(self):
+        ''
+        self.fail('Не сделанно')
+
+    def test_permission(self):
+        ''
+        self.fail('Не сделанно')
 
