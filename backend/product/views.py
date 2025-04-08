@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Product, Marketplace, ProductMarketplace
 from .forms import ProductFormCreate, MarketplaceFormCreate, ProductFormUpdate, ProductMarketplaceForm
 from account.mixins import AdminRequriedMixin
-
+from account.models import User
 
 # Товары
 class ProductDetail(LoginRequiredMixin, DetailView):
@@ -30,8 +30,9 @@ class ProductList(LoginRequiredMixin, ListView):
     "Список товаров"
 
     model = Product
-    template_name = 'product/product_list'
+    template_name = 'product/product_list.html'
     context_object_name = 'products'
+
 
 
 class ProductCreate(LoginRequiredMixin, CreateView):
