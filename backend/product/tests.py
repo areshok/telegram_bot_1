@@ -59,13 +59,27 @@ class ProductListTest(TestCase):
     def test_context(self):
         "тест: проверка отображения товаров на странице"
         response = self.client.get(reverse('product:product_list'))
-        products = response.context['products']
+        products = response.context['page_obj']
         self.assertIn('name', products[0].name)
         self.assertIn('description', products[0].description)
 
-    def test_pagination(self):
-        "тест: проверка пагинации"
-        self.fail('Не сделанно')
+    def test_pagination_first_page(self):
+        "тест: проверка пагинации первой страницы"
+        response = self.client.get(reverse('product:product_list'))
+        self.assertTrue('is_paginated' in response.context)
+        page_obj = response.context['page_obj']
+        self.assertEqual(len(page_obj), 10)
+
+    def test_pagination_second_page(self):
+        "тест: проверка пагинации второй страницы"
+        response = self.client.get(reverse('product:product_list') + '?page=2')
+        self.assertTrue('is_paginated' in response.context)
+        page_obj = response.context['page_obj']
+        self.assertEqual(len(page_obj), 5)
+
+    def test_pagination_unknown_page(self):
+        "тест: пагинации неизветной страницы"
+        self.fail('Не сделано')
 
     def test_permission_authorized_user(self):
         "тест: проверка доступа авторизированного пользователя"
@@ -81,7 +95,7 @@ class ProductListTest(TestCase):
     def test_ordering(self):
         "тест: проверка сортировки"
         response = self.client.get(reverse('product:product_list'))
-        products = response.context['products']
+        products = response.context['page_obj']
         self.assertEqual(products[0].name, f'name_{MAX_COUNT}')
         self.assertEqual(products[0].description, f'description_{MAX_COUNT}')
 

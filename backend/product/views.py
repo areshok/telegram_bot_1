@@ -30,7 +30,7 @@ class ProductList(LoginRequiredMixin, ListView):
     "Список товаров"
     model = Product
     template_name = 'product/product_list.html'
-    paginate_by = 5
+    paginate_by = 10
 
 
 class ProductCreate(LoginRequiredMixin, CreateView):
