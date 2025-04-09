@@ -28,11 +28,9 @@ class ProductDetail(LoginRequiredMixin, DetailView):
 
 class ProductList(LoginRequiredMixin, ListView):
     "Список товаров"
-
     model = Product
     template_name = 'product/product_list.html'
-    context_object_name = 'products'
-
+    paginate_by = 5
 
 
 class ProductCreate(LoginRequiredMixin, CreateView):

@@ -2,7 +2,7 @@ import tempfile
 from django.test import TestCase, Client, override_settings
 from account.models import User
 from django.urls import reverse
-from django.contrib.auth.models import AnonymousUser
+
 # Create your tests here.
 
 from account.models import User
@@ -124,16 +124,33 @@ class ProductDetailTest(TestCase):
 
     def test_name_to_url(self):
         "тест: проверка сопоставление namespace и url"
-        url = reverse('product:product_detail',kwargs={'pk': 1})
+        product = Product.objects.first()
+        url = reverse('product:product_detail', kwargs={'pk': product.id})
         self.assertEqual(url, '/product/detail/1/')
 
     def test_context(self):
         ''
+
+        #response = self.client.get(reverse())
+
         self.fail('Не сделанно')
 
-    def test_permission(self):
-        ''
-        self.fail('Не сделанно')       
+    def test_permission_authorized_user(self):
+        "тест: проверка доступа авторизированного пользователя"
+        product = Product.objects.first()
+        response = self.client.get(reverse('product:product_detail', kwargs={'pk': product.id}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_permission_anonymous_user(self):
+        """тест: проверка доступа неавторизированного пользователя.
+        Перенаправляется на страницу входа."""
+        product = Product.objects.first()
+        anonim = Client()
+        response = anonim.get(
+            reverse('product:product_detail', kwargs={'pk': product.id})
+        )
+        self.assertEqual(response.status_code, 302)
+
 
 class ProductCreateTest(TestCase):
     ''

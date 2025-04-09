@@ -1,0 +1,42 @@
+{% load product_tags %}
+<div class='col'>
+    <div class='d-flex justify-content-center'>
+        {% if page_obj %}
+            <ul class="pagination">
+                <!-- отображает предыдущую страницу если есть предыдущая страница -->
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a></li>
+                {% endif %}
+
+                <!--  -->
+                {% if page_obj.number|delta:2 >= 1 %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:-1 }}">{{ page_obj.number|add:-2 }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:-2 }}">{{ page_obj.number|add:-1 }}</a></li>
+                {% elif page_obj.number|delta:1 > 0 %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:-1 }}">{{ page_obj.number|add:-1 }}</a></li>
+                {% endif %}
+
+                <!-- текущая страница -->
+                <li class="page-item  active"><a class="page-link" href="">{{ page_obj.number}}</a></li>
+
+                <!-- доабвляет +2 страницы если не до конца  -->
+                {% if page_obj.number|delta:page_obj.paginator.num_pages < -2 %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:1 }}">{{ page_obj.number|add:1 }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:2 }}">{{ page_obj.number|add:2 }}</a></li>
+                {% elif page_obj.number|delta:page_obj.paginator.num_pages == -2 %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:1 }}">{{ page_obj.number|add:1 }}</a></li>
+                {% endif %}
+                
+                <!-- отображает последнюю страницу если текущая страница не равна послденей странице -->
+                {% if page_obj.number != page_obj.paginator.num_pages %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages}}</a></li>
+                {% endif %}
+                <!-- отображает следующую страницу если она есть -->
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Дальше</a></li>
+                {% endif %}
+
+            </ul>
+        {% endif %}
+    </div>
+</div>

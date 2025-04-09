@@ -20,8 +20,8 @@
                 <th>Создать Qrcode</th>
             </thead>
             <tbody>
-                {% if products %}
-                    {% for product in products %}
+                {% if page_obj %}
+                    {% for product in page_obj %}
                         <tr>
                             <td>{{ product.name }}</td>
                             <td>{{ product.description }}</td>
