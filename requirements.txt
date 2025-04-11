@@ -6,3 +6,4 @@ typing_extensions==4.12.2
 qrcode==8.0
 python-dotenv==1.0.1
 pillow==11.1.0
+gunicorn==23.0.0
