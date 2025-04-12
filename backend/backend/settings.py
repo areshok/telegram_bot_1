@@ -2,26 +2,19 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR.parent, '.env'))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.getenv('DEBUG'))
+
+DEBUG = False
+
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'account',
@@ -48,7 +41,6 @@ MIDDLEWARE = [
 ]
 
 
-
 TEMPLATEST_DIR = os.path.join(BASE_DIR, 'templates')
 
 TEMPLATES = [
@@ -70,20 +62,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
-# Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -100,9 +78,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -112,18 +87,30 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, '../static')
-STATIC_ROOT = '/var/www/project/static'
-
 MEDIA_URL = '/media/'
-#MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
-MEDIA_ROOT = '/var/www/project/media'
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+
+if os.getenv('SERVER_TYPE') == 'ubuntu':
+    STATIC_ROOT = '/var/www/project/static'
+    MEDIA_ROOT = '/var/www/project/media'
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+elif os.getenv('SERVER_TYPE') == 'local':
+    STATIC_ROOT = os.path.join(BASE_DIR, '../static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+elif os.getenv('SERVER_TYPE') == 'docker':
+    pass
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -131,7 +118,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 T_BOT_TOKEN = os.getenv("T_BOT_TOKEN")
 
 
-LOGIN_URL = 'account:login'
 ROOT_URLCONF = 'backend.urls'
-
+LOGIN_URL = 'account:login'
 LOGIN_REDIRECT_URL = '/'
