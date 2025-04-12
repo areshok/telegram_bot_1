@@ -91,8 +91,8 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 if os.getenv('SERVER_TYPE') == 'ubuntu':
-    STATIC_ROOT = '/var/www/project/static'
-    MEDIA_ROOT = '/var/www/project/media'
+    STATIC_ROOT = '/var/www/productsite/static'
+    MEDIA_ROOT = '/var/www/productsite/media'
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
