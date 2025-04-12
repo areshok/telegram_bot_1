@@ -36,6 +36,7 @@ class ProductListTest(TestCase):
         cls.temp_media.cleanup()
         cls.anonim = None
         cls.user.delete()
+        Product.objects.all().delete()
         super().tearDownClass()
 
     def setUp(self):
@@ -79,7 +80,8 @@ class ProductListTest(TestCase):
 
     def test_pagination_unknown_page(self):
         "тест: пагинации неизветной страницы"
-        self.fail('Не сделано')
+        response = self.client.get(reverse('product:product_list') + '?page=999')
+        self.assertEqual(response.status_code, 404)
 
     def test_permission_authorized_user(self):
         "тест: проверка доступа авторизированного пользователя"
@@ -107,10 +109,6 @@ class ProductDetailTest(TestCase):
     @override_settings(MEDIA_ROOT=tempfile.gettempdir())
     def setUpClass(cls):
         cls.temp_media = tempfile.TemporaryDirectory()
-        Product.objects.create(
-            name='name_test',
-            description='description_test'
-        )
         super().setUpClass()
 
     @classmethod
@@ -119,6 +117,10 @@ class ProductDetailTest(TestCase):
         super().tearDownClass()
 
     def setUp(self):
+        Product.objects.create(
+            name='name_test',
+            description='description_test'
+        )
         self.anonim = Client()
         User.objects.create_user(
             username='test_user',
@@ -130,6 +132,9 @@ class ProductDetailTest(TestCase):
         )
         if not logged:
             raise ValueError("Не удалось войти в систему")
+
+    def tearDown(self):
+        Product.objects.all().delete()
 
     def test_template(self):
         "тест: проверка шаблона"
@@ -144,9 +149,6 @@ class ProductDetailTest(TestCase):
 
     def test_context(self):
         ''
-
-        #response = self.client.get(reverse())
-
         self.fail('Не сделанно')
 
     def test_permission_authorized_user(self):
@@ -167,11 +169,28 @@ class ProductDetailTest(TestCase):
 
 
 class ProductCreateTest(TestCase):
-    ''
+    "тест кейс product_create"
+
+    def setUp(self):
+        User.objects.create_user(
+                username='test_user',
+                password='Test_password'
+            )
+        logged = self.client.login(
+                username='test_user',
+                password='Test_password'
+            )
+        if not logged:
+            raise ValueError("Не удалось войти в систему")
+
+    def tearDown(self):
+        Product.objects.all().delete()
 
     def test_template(self):
-        ''
-        self.fail('Не сделанно')
+        "Тест: проверка шаблона"
+        response = self.client.get(reverse('product:product_create'))
+        self.assertTemplateUsed(response, 'product/product_create.html')
+        #self.fail('Не сделанно')
 
     def test_context(self):
         ''
@@ -181,7 +200,7 @@ class ProductCreateTest(TestCase):
         ''
         self.fail('Не сделанно')
 
-
+'''
 class ProductUpdateTest(TestCase):
     ''
 
@@ -213,3 +232,7 @@ class ProductDeleteTest(TestCase):
         ''
         self.fail('Не сделанно')
 
+'''
+
+class ProductModelTest(TestCase):
+    pass
