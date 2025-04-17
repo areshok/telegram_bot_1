@@ -11,7 +11,7 @@ urlpatterns = [
         name='product_list'
     ),
     path(
-        'detail/<pk>/',
+        '<int:pk>/detail/',
         views.ProductDetail.as_view(),
         name='product_detail'
     ),
@@ -21,23 +21,23 @@ urlpatterns = [
         name='product_create'
     ),
     path(
-        'edit/<pk>/',
+        '<int:pk>/update/',
         views.ProductUpdate.as_view(),
         name='product_update'
     ),
 
     path(
-        'marketplace-list/',
+        'marketplaces/',
         views.MarketplaceList.as_view(),
         name='marketplace_list'
     ),
     path(
-        'marketplace-create/',
+        'marketplace/create/',
         views.MarketplaceCreate.as_view(),
         name='marketplace_create'
     ),
     path(
-        'marketplace-delete/<pk>/',
+        'marketplace/<pk>/delete/',
         views.MarketplaceDelete.as_view(),
         name='marketplace_delete'
     ),
