@@ -23,8 +23,9 @@ urlpatterns = [
     path(
         'edit/<pk>/',
         views.ProductUpdate.as_view(),
-        name='product_edit'
+        name='product_update'
     ),
+
     path(
         'marketplace-list/',
         views.MarketplaceList.as_view(),
@@ -40,6 +41,7 @@ urlpatterns = [
         views.MarketplaceDelete.as_view(),
         name='marketplace_delete'
     ),
+
     path(
         '<int:pk>/qrcode-download/',
         views.QrcodeDowdnload.as_view(),

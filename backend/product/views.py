@@ -143,7 +143,7 @@ class MarketplaceCreate(AdminRequriedMixin, CreateView):
 
     model = Marketplace
     form_class = MarketplaceFormCreate
-    template_name = 'product/merketplace_create.html'
+    template_name = 'product/marketplace_create.html'
     success_url = reverse_lazy('product:marketplace_list')
 
 
