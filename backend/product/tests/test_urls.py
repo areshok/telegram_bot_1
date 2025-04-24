@@ -33,7 +33,7 @@ class TestUrlProduct(TestCase):
     def test_url_product_qrcode_create(self):
         "тест: проверка url qrcode_create"
         url = reverse('product:qrcode_create', kwargs={'pk': 1})
-        self.assertEqual(url, 'product/1/qrcode-create/')
+        self.assertEqual(url, '/product/1/qrcode-create/')
 
     def test_url_product_qrcode_delete(self):
         "тест: проверка url qrcode_delete"

@@ -1,18 +1,22 @@
 import tempfile
+import shutil
 
-from django.test import TestCase, Client, override_settings
+from django.conf import settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 
 from product.models import Product, Marketplace
 from account.models import User
 
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.MEDIA_ROOT_TESTS)
+
 
 class TestProductPermissionAdminUser(TestCase):
     "Тест кейс проверки доступа от админа связанных с моделью product"
 
     @classmethod
-    @override_settings(MEDIA_ROOT=tempfile.gettempdir())
+    @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
     def setUpClass(cls):
         cls.temp_media = tempfile.TemporaryDirectory()
         User.objects.all().delete()
@@ -20,14 +24,15 @@ class TestProductPermissionAdminUser(TestCase):
             username='test_admin',
             password='test_admin_pass'
         )
-        Product.objects.create(name='test', description='test')
+        Product.objects.create(name='test1', description='test1')
+        Product.objects.create(name='test2', description='test2')
         return super().setUpClass()
 
     @classmethod
     def tearDownClass(cls):
         Product.objects.all().delete()
         User.objects.all().delete()
-        cls.temp_media.cleanup()
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
         return super().tearDownClass()
 
     def setUp(self):
@@ -64,20 +69,22 @@ class TestProductPermissionAdminUser(TestCase):
 
     def test_qrcode_download_admin_user_access(self):
         "тест: проверка доступа админа до qrcode_download"
+        # бля ну я хз, заебал ругаться на 404
         product = Product.objects.first()
         response = self.client.get(reverse('product:qrcode_download', kwargs={'pk': product.id}))
+        self.assertEqual(product.qrcode, f'qrcode/{product.id}_{product.name}_qrcode.png')
         self.assertEqual(response.status_code, 200)
 
     def test_qrcode_create_admin_user_access(self):
         "тест: проверка доступа админа до qrcode_create"
         product = Product.objects.first()
-        response = self.client.get(reverse('product:qrcode_create', kwargs={'pk': product.id}))
+        response = self.client.get(reverse('product:qrcode_create', kwargs={'pk': product.id}), follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_qrcode_delete_admin_user_access(self):
         "тест: проверка доступа админа до qrcode_delete"
-        product = Product.objects.first()
-        response = self.client.get(reverse('product:qrcode_delete', kwargs={'pk': product.id}))
+        product = Product.objects.create(name='test_3', description='test_3')
+        response = self.client.get(reverse('product:qrcode_delete', kwargs={'pk': product.id}), follow=True)
         self.assertEqual(response.status_code, 200)
 
 
@@ -98,7 +105,6 @@ class TestMarketplacePermissionAdminUser(TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        Product.objects.all().delete()
         User.objects.all().delete()
         cls.temp_media.cleanup()
         return super().tearDownClass()
@@ -114,11 +120,11 @@ class TestMarketplacePermissionAdminUser(TestCase):
 
     def test_marketplace_create_admin_user_access(self):
         "тест: проверка доступа админа до create_marketplace"
-        response = self.client.get(reverse('product:marcetplace_create'))
+        response = self.client.get(reverse('product:marketplace_create'))
         self.assertEqual(response.status_code, 200)
 
     def test_marketplace_delete_admin_user_access(self):
         "тест: проверка доступа админа до marketplace_delete"
-        marketplace = Marketplace.objects.first()
-        response = self.client.get(reverse('product:marketplace_delete', kwargs={'pk': marketplace.id}))
+        marketplace = Marketplace.objects.create(name='test_2')
+        response = self.client.get(reverse('product:marketplace_delete', kwargs={'pk': marketplace.id}), follow=True)
         self.assertEqual(response.status_code, 200)

@@ -28,7 +28,7 @@ def generate_qr_code(sender, instance, created, **kwargs):
         img.save(buffer, format='PNG')
         buffer.seek(0)
 
-        filename = f'{instance.id}_qrcode.png'
+        filename = f'{instance.id}_{instance.name}_qrcode.png'
         file = InMemoryUploadedFile(
             buffer,
             None,

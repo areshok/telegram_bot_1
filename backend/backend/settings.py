@@ -4,16 +4,16 @@ from dotenv import load_dotenv
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(os.path.join(BASE_DIR.parent, '.env'))
+load_dotenv(os.path.join(BASE_DIR, '../.env'))
 
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 
-DEBUG = False
+DEBUG = True
 
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = [] # os.getenv('ALLOWED_HOSTS').split(','),
 
 
 INSTALLED_APPS = [
@@ -90,6 +90,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
+'''
 if os.getenv('SERVER_TYPE') == 'ubuntu':
     STATIC_ROOT = '/var/www/productsite/static'
     MEDIA_ROOT = '/var/www/productsite/media'
@@ -110,6 +111,18 @@ elif os.getenv('SERVER_TYPE') == 'local':
     }
 elif os.getenv('SERVER_TYPE') == 'docker':
     pass
+'''
+
+MEDIA_ROOT_TESTS = os.path.join(BASE_DIR, '../media_test')
+STATIC_ROOT = os.path.join(BASE_DIR, '../static')
+MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

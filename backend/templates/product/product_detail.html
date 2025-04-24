@@ -9,8 +9,12 @@
     <p>{{ product.description }}</p>
 
     <!-- для теста -->
+    
     <p>{{product.qrcode}}</p>
+    {% if product.qrcode %}
     <img src='{{ product.qrcode.url }}'>
+    {% endif %}
+    <p><a href='{% url 'product:qrcode_delete' product.id %}'>удалить</a></p>
 
     <h2>Ссылки на маркетплейсы</h2>
     {% if marketplaces %}

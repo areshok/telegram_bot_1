@@ -12,4 +12,5 @@ class TelegramProfileAdmin(admin.ModelAdmin):
 
 @admin.register(CommentProduct)
 class CommentProductAdmin(admin.ModelAdmin):
-    fields = ('product_id', 'telegram_profile_id')
+    fields = ('product_id', 'telegram_profile_id', 'comment', 'score')
+    list_display = ['product_id', 'telegram_profile_id', 'comment', 'score']

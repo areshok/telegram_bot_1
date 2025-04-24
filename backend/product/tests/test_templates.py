@@ -1,5 +1,7 @@
 import tempfile
+import shutil
 
+from django.conf import settings
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
@@ -7,11 +9,13 @@ from account.models import User
 from product.models import Product, Marketplace
 
 
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.MEDIA_ROOT_TESTS)
+
 class TestProductTemplate(TestCase):
     "Тест кейс проверки шаблонов приложения связанные с моделью product"
 
     @classmethod
-    @override_settings(MEDIA_ROOT=tempfile.gettempdir())
+    @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
     def setUpClass(cls):
         "Установка"
         cls.temp_media = tempfile.TemporaryDirectory()
@@ -24,15 +28,15 @@ class TestProductTemplate(TestCase):
             username='test',
             password='test'
         )
-        super().setUpClass()
+        return super().setUpClass()
 
     @classmethod
     def tearDownClass(cls):
         "Удаление"
-        cls.temp_media.cleanup()
         Product.objects.all().delete()
         User.objects.all().delete()
-        super().tearDownClass()
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+        return super().tearDownClass()
 
     def setUp(self):
         self.client.login(

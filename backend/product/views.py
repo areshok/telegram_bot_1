@@ -3,8 +3,8 @@ from django.http import HttpResponse, Http404
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, View
 
 from django.forms import inlineformset_factory
-from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 from .models import Product, Marketplace, ProductMarketplace
@@ -124,9 +124,26 @@ class QrcodeDowdnload(LoginRequiredMixin, View):
             return response
 
 
-class QrcodeGenerate(LoginRequiredMixin, View):
+class QrcodeCreate(LoginRequiredMixin, View):
     "Создать Qrcod"
-    pass
+    def get(self, request, *args, **kwargs):
+        product_id = kwargs.get('pk')
+        product = get_object_or_404(Product, id=product_id)
+
+        # тут создание qrcod
+
+        return redirect(reverse_lazy("product:product_detail", kwargs={'pk': product.id}))
+
+
+
+class QrcodeDelete(LoginRequiredMixin, View):
+    "Удалить Qrcode"
+    def get(self, request, *args, **kwargs):
+        product_id = kwargs.get('pk')
+        product = get_object_or_404(Product, id=product_id)
+        product.qrcode.delete()
+        product.save()
+        return redirect(reverse("product:product_detail", kwargs={'pk': product.id}))
 
 
 # Маркетплейсы

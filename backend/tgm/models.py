@@ -9,6 +9,7 @@ class TelegramProfile(models.Model):
     username = models.CharField(max_length=32, null=False)
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64, null=True)
+    # удалить нет телефона в карточке пользователя
     phone = models.CharField(max_length=15)
 
 
@@ -23,6 +24,6 @@ class CommentProduct(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
-    comment = models.TextField()
-
+    comment = models.TextField(null=True)
+    score = models.IntegerField(null=True)
 
