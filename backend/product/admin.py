@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Product, ProductMarketplace, Marketplace
+from .models import Product, ProductMarketplaceUrl, Marketplace
 
 
 
@@ -10,7 +10,7 @@ class ProductAdmin(admin.ModelAdmin):
     fields = ['name', ]
     list_display = ['id', 'name']
 
-@admin.register(ProductMarketplace)
+@admin.register(ProductMarketplaceUrl)
 class ProductMarketplaceAdmin(admin.ModelAdmin):
     fields = ['product_id','marketplace_id', 'url']
 

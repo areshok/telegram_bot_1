@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import TelegramProfile, CommentProduct
+from .models import TelegramProfile, CommentProduct, MarketingMessage
 # Register your models here.
 
 
@@ -14,3 +14,9 @@ class TelegramProfileAdmin(admin.ModelAdmin):
 class CommentProductAdmin(admin.ModelAdmin):
     fields = ('product_id', 'telegram_profile_id', 'comment', 'score')
     list_display = ['product_id', 'telegram_profile_id', 'comment', 'score']
+
+
+@admin.register(MarketingMessage)
+class MarketingMessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'status', 'message', 'product_id')
+    fields = ['name', 'status', 'message', 'product_id']

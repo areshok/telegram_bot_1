@@ -2,7 +2,7 @@ from asgiref.sync import sync_to_async
 
 
 from tgm.models import TelegramProfile, CommentProduct
-from product.models import Marketplace, Product
+from product.models import Marketplace, Product, ProductMarketplaceUrl
 
 @sync_to_async
 def create_or_update_user(user):
@@ -21,6 +21,7 @@ def create_or_update_user(user):
             first_name=user.first_name,
             last_name=user.last_name,
         )
+
 
 @sync_to_async
 def create_product_comment(comment):
@@ -41,3 +42,12 @@ def filter_marketplace():
     for market in Marketplace.objects.all():
         marketplaces.append(market)
     return '|'.join(marketplaces)
+
+
+def get_url_marketplace_product(product_id, marketplace):
+    'Выдает url товара с маркетплейса'
+    if Product.objects.filter(id=product_id).exists() and Marketplace.objects.filter(name=marketplace).exists():
+        product = Product.objects.get(id=product_id)
+        marketplace = Marketplace.objects.get(name=marketplace)
+        url = ProductMarketplace.objects.get(product_id=product, martplace_id=marketplace)
+        return str(url.url)

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import inlineformset_factory
 
-from .models import Product, Marketplace, ProductMarketplace
+from .models import Product, Marketplace, ProductMarketplaceUrl
 
 
 class ProductFormCreate(forms.ModelForm):
@@ -29,7 +29,7 @@ class ProductFormUpdate(forms.ModelForm):
 
 class ProductMarketplaceForm(forms.ModelForm):
     class Meta:
-        model = ProductMarketplace
+        model = ProductMarketplaceUrl
         fields = ['id', 'marketplace_id', 'url']
         widgets = {
             'url': forms.TextInput(attrs={'class': 'form-control'}),
@@ -44,7 +44,7 @@ class ProductMarketplaceForm(forms.ModelForm):
 
 ProductMarketplaceFormSet = inlineformset_factory(
     Product,
-    ProductMarketplace,
+    ProductMarketplaceUrl,
     form=ProductMarketplaceForm,
     fields=('marketplace_id', 'url'),
     extra=3,

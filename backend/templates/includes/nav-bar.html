@@ -15,6 +15,9 @@
             <a class="nav-link link-secondary" href="#">Отзывы</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link link-secondary" href="{% url 'telegram:marketing_message_list' %}">Рекламные сообщения</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
         {% if request.user.is_staff %}

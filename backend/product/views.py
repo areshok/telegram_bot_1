@@ -7,20 +7,21 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
-from .models import Product, Marketplace, ProductMarketplace
+from .models import Product, Marketplace, ProductMarketplaceUrl
 from .forms import ProductFormCreate, MarketplaceFormCreate, ProductFormUpdate, ProductMarketplaceForm
 from account.mixins import AdminRequriedMixin
 from account.models import User
 
 # Товары
 class ProductDetail(LoginRequiredMixin, DetailView):
+    "Просмотр товара"
     model = Product
     template_name = 'product/product_detail.html'
     context_object_name = 'product'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['marketplaces'] = ProductMarketplace.objects.filter(
+        context['marketplaces'] = ProductMarketplaceUrl.objects.filter(
             product_id=self.object
         )
         return context
@@ -51,7 +52,6 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('product:product_list')
-        #return reverse_lazy('product:product_edit', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -74,7 +74,7 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
         available_marketplaces = self.get_available_marketplaces(instance)
         ProductMarketplaceFormSet = inlineformset_factory(
             Product,
-            ProductMarketplace,
+            ProductMarketplaceUrl,
             form=ProductMarketplaceForm,
             extra=len(available_marketplaces),
             can_delete=True
@@ -88,7 +88,7 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
         )
 
     def get_available_marketplaces(self, product):
-        existing_marketplaces = ProductMarketplace.objects.filter(
+        existing_marketplaces = ProductMarketplaceUrl.objects.filter(
             product_id=product
             ).values_list('marketplace_id', flat=True)
         return Marketplace.objects.exclude(id__in=existing_marketplaces)

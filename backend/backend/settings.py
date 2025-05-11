@@ -25,8 +25,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'product.apps.ProductConfig',
-    'tgm',
+    'tgm.apps.TgmConfig',
     'report',
+    'data',
 
 ]
 
@@ -134,3 +135,5 @@ T_BOT_TOKEN = os.getenv("T_BOT_TOKEN")
 ROOT_URLCONF = 'backend.urls'
 LOGIN_URL = 'account:login'
 LOGIN_REDIRECT_URL = '/'
+
+PAGINATE_COUNT = 10

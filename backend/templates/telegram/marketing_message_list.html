@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Список рекламный предложений{% endblock %}
+
+
+{% block content %}
+    <div class='row'>
+        <div class='col'>
+            <a class="btn btn-primary text-nowrap" href="" role="button">Создать рекламное сообщение</a>
+        </div>
+    </div>
+
+
+    {% if page_obj %}
+            <div class='row'>
+                <div class=col>
+                    <table class='table table-striped table-hover table-bordered align-middle '>
+                        <thead>
+                            <th class='col-1 text-center'>Название товара</th>
+                            <th class='col-1 text-center'>Текст</th>
+                            <th class='col-1 text-center'>Статус</th>
+                            <th class='col-1 text-center'>Кнопка</th>
+                        </thead>
+                        <tbody>
+                            {% for message in page_obj %}
+                                <tr>
+                                    <td class='text-center'>{{ message.name }}</td>  
+                                    <td class='text-center'>{{ marketplace.message }}</td> 
+                                    <td class='text-center'>{{ marketplace.status }}</td> 
+                                    <td class='text-center'>
+                                        <a class="btn btn-primary text-nowrap" href="{% url 'telegram:marketing_meassage_send' message.id %}" role="button">Рассылка</a>
+                                    </td>  
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    {% endif %}
+{% endblock %}

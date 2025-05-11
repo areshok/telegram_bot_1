@@ -8,4 +8,5 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/product/')),
     path('product/', include('product.urls')),
     path('account/', include('account.urls')),
+    path('telegram/', include('tgm.urls')),
 ]

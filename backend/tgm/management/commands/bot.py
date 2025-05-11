@@ -9,7 +9,7 @@ from telegram.ext import Updater, CommandHandler, Application, MessageHandler, f
 from django.conf import settings
 
 from tgm.models import  CommentProduct
-from tgm.utils import create_or_update_user, create_product_comment, filter_marketplace
+from tgm.utils import create_or_update_user, create_product_comment, filter_marketplace, get_url_marketplace_product
 
 class Command(BaseCommand):
     help = 'Запускает телеграм бота. Параметров нет'
@@ -49,7 +49,6 @@ class TelegramBot:
             )
         self.__BOT.run_polling()
 
-        
     async def start_get_id_product(self, update, context):
         ""
         user = update.effective_user
@@ -101,8 +100,12 @@ class TelegramBot:
         else:
             await create_product_comment(context.user_data['messages'])
             # добавить ссылку на маркептлейс
+            url = get_url_marketplace_product(
+                context.user_data['messages']['product_id'],
+                context.user_data['messages']['marketplace']
+            )
             await update.message.reply_text(
-                text='Оставьте отзыв на маркетплейсе',
+                text=f'Оставьте отзыв на маркетплейсе \n {url}',
                 reply_markup=ReplyKeyboardRemove()
             )
 
