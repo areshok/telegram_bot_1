@@ -17,9 +17,9 @@ ALLOWED_HOSTS = [] # os.getenv('ALLOWED_HOSTS').split(','),
 
 
 INSTALLED_APPS = [
+    'django.contrib.auth',
     'account',
     'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -28,6 +28,11 @@ INSTALLED_APPS = [
     'tgm.apps.TgmConfig',
     'report',
     'data',
+    "api",
+    "functional_tests",
+    #
+    'rest_framework',
+    'django_filters',
 
 ]
 

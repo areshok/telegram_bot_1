@@ -9,4 +9,5 @@ urlpatterns = [
     path('product/', include('product.urls')),
     path('account/', include('account.urls')),
     path('telegram/', include('tgm.urls')),
+    path("api/v1/", include("api.urls"))
 ]

@@ -30,3 +30,11 @@ class UserEdit(UpdateView):
     "Редактирование пользователя"
 
     pass
+
+
+
+def create_user(request):
+    
+
+
+    pass

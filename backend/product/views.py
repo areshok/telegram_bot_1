@@ -12,6 +12,9 @@ from .forms import ProductFormCreate, MarketplaceFormCreate, ProductFormUpdate, 
 from account.mixins import AdminRequriedMixin
 from account.models import User
 
+from django.http import HttpResponseRedirect
+
+
 # Товары
 class ProductDetail(LoginRequiredMixin, DetailView):
     "Просмотр товара"
@@ -94,14 +97,15 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
         return Marketplace.objects.exclude(id__in=existing_marketplaces)
 
 
-class ProductDelete(DeleteView):
+class ProductDelete(View):
     "Удаление товара"
 
-    model = Product
-    success_url = reverse_lazy('product:product_list')
+    def post(self, request, *args, **kwargs):
+        product_id = kwargs.get('pk')
+        product = get_object_or_404(Product, id=product_id)
+        product.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-    def get(self, request, *args, **kwargs):
-        return self.delete(request, *args, **kwargs)
 
 
 # Qrcode
@@ -138,12 +142,12 @@ class QrcodeCreate(LoginRequiredMixin, View):
 
 class QrcodeDelete(LoginRequiredMixin, View):
     "Удалить Qrcode"
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         product_id = kwargs.get('pk')
         product = get_object_or_404(Product, id=product_id)
         product.qrcode.delete()
         product.save()
-        return redirect(reverse("product:product_detail", kwargs={'pk': product.id}))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 # Маркетплейсы
