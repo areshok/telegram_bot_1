@@ -15,6 +15,7 @@ class Command(BaseCommand):
     help = 'Запускает телеграм бота. Параметров нет'
 
     def handle(self, *args, **kwargs):
+        print(settings.TOKEN_BOT)
         TelegramBot().run()
 
 
@@ -23,7 +24,7 @@ class Command(BaseCommand):
 
 class TelegramBot:
     def __init__(self):
-        self.__BOT = Application.builder().token(token=settings.T_BOT_TOKEN).build()
+        self.__BOT = Application.builder().token(token=settings.TOKEN_BOT).build()
         self.__marketplace_filter = filter_marketplace
         self.__marketplace_buttoms = filter_marketplace
 

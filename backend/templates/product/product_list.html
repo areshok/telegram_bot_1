@@ -5,29 +5,66 @@
 {% endblock %}
 
 {% block content %}
-    <div class='row my-3'>
-        поиск
+
+    <div class="row">
+        <h2 class="text-center">Список товаров</h2>
+    </div>
+
+    <div class='row my-3 p-2 bg-secondary rounded'>
+        <div >
+            <a
+            href='{% url "product:product_create" %}'
+            class="btn btn-primary"
+            >
+            Добавить товар
+            </a>
+            
+        </div>
     </div>
 
     <div class='row my-3'>
         <table class='table table-striped table-hover table-bordered'>
             <thead>
-                <th>Название</th>
-                <th>Описание</th>
-                <th>Qrcode</th>
-                <th>Редактировать</th>
-                <th>Скачать Qrcode</th>
-                <th>Создать Qrcode</th>
+                <th class="text-center">Название</th>
+                <th class="text-center">Описание</th>
+                <th class="text-center">Qrcode</th>
+                <th class="text-center">Редактировать</th>
+                <th class="text-center">Скачать Qrcode</th>
+                <th class="text-center">Создать Qrcode</th>
             </thead>
             <tbody>
                 {% if page_obj %}
                     {% for product in page_obj %}
                         <tr>
-                            <td>{{ product.name }}</td>
-                            <td>{{ product.description }}</td>
-                            <th>Qrcode</th>
-                            <td><a role="button" class="btn btn-primary" href='{% url 'product:product_detail' product.id %}'>Просмотр</a></td>
-                            <th><a role="button" class="btn btn-primary" href='{% url 'product:qrcode_download' product.id %}'>Скачать</a></th>
+                            <td class="text-center">{{ product.name }}</td>
+                            <td class="text-center">{{ product.description }}</td>
+                            <th class="text-center">
+                                {% if product.qrcode %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                    </svg>
+                                {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-break-fill" viewBox="0 0 16 16">
+                                    <path d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V9H2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM2 12h12v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM.5 10a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1z"/>
+                                    </svg>
+                                {% endif %}
+                            </th>
+                            <td class="text-center">
+                                <a role="button" class="btn btn-primary" href='{% url 'product:product_detail' product.id %}'>
+                                    
+                                    Просмотр
+                                </a>
+                            </td>
+                            <th class="text-center">
+                                <a role="button" class="btn btn-primary" href='{% url 'product:qrcode_download' product.id %}'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
+                                    </svg>
+                                    Скачать
+                                </a>
+                            </th>
                             <th><a role="button" class="btn btn-primary" href=''>Создать</a></th>
                         </tr>
                     {% endfor %}

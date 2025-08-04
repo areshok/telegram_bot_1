@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'report',
     'data',
     "api",
-    "functional_tests",
+    #"functional_tests",
     #
     'rest_framework',
     'django_filters',
@@ -124,8 +124,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, '../static')
 MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
 DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv("BD_NAME"),
+            "USER": os.getenv("BD_USER"),
+            "PASSWORD": os.getenv("BD_PASSWORD"),
+            "HOST": os.getenv("BD_HOST"),
+            "POST": os.getenv("BD_POST")
         }
     }
 
@@ -134,7 +138,8 @@ DATABASES = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-T_BOT_TOKEN = os.getenv("T_BOT_TOKEN")
+TOKEN_BOT = os.getenv("TOKEN_BOT")
+T_BOT_URL = f"https://t.me/{os.getenv('T_BOT_NAME')}?start="
 
 
 ROOT_URLCONF = 'backend.urls'

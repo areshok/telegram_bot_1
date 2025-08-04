@@ -12,11 +12,11 @@ class TelegramProfileAdmin(admin.ModelAdmin):
 
 @admin.register(CommentProduct)
 class CommentProductAdmin(admin.ModelAdmin):
-    fields = ('product_id', 'telegram_profile_id', 'comment', 'score')
-    list_display = ['product_id', 'telegram_profile_id', 'comment', 'score']
+    fields = ('product_id', 'telegram_profile_id', 'comment', 'score', "status")
+    list_display = ['product_id', 'telegram_profile_id', 'comment', 'score', "status", "user_id"]
 
 
 @admin.register(MarketingMessage)
 class MarketingMessageAdmin(admin.ModelAdmin):
-    list_display = ('name', 'status', 'message', 'product_id')
-    fields = ['name', 'status', 'message', 'product_id']
+    list_display = ('body', 'status', 'title', 'product_id', "image")
+    fields = ['title', 'status', 'body', 'product_id', "image"]

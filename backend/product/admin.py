@@ -26,6 +26,7 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductMarketplaceInLine]
     fields = ['name', 'description']
     list_display = [
+        "id",
         'name',
         'description',
         "qrcode_status",

@@ -4,9 +4,14 @@
 
 
 {% block content %}
-    <div class='row'>
+
+    <div class="row">
+        <h2 class="text-center">Список маркетинговых сообщений</h2>
+    </div>
+
+    <div class='row my-3 p-2 bg-secondary rounded'>
         <div class='col'>
-            <a class="btn btn-primary text-nowrap" href="" role="button">Создать рекламное сообщение</a>
+            <a class="btn btn-primary text-nowrap" href="{% url 'telegram:message_create' %}" role="button">Создать рекламное сообщение</a>
         </div>
     </div>
 
@@ -14,19 +19,39 @@
     {% if page_obj %}
             <div class='row'>
                 <div class=col>
-                    <table class='table table-striped table-hover table-bordered align-middle '>
+                    <table class='table table-striped table-hover table-bordered align-middle'>
                         <thead>
+                            <th class='col-1 text-center'>№</th>
                             <th class='col-1 text-center'>Название товара</th>
+                            <th class='col-1 text-center'>Продукт</th>
                             <th class='col-1 text-center'>Текст</th>
                             <th class='col-1 text-center'>Статус</th>
+                            <th class='col-1 text-center'>Картинка</th>
                             <th class='col-1 text-center'>Кнопка</th>
                         </thead>
                         <tbody>
                             {% for message in page_obj %}
                                 <tr>
-                                    <td class='text-center'>{{ message.name }}</td>  
-                                    <td class='text-center'>{{ marketplace.message }}</td> 
-                                    <td class='text-center'>{{ marketplace.status }}</td> 
+                                    <td class='text-center'>{{forloop.counter}}</td> 
+                                    <td class='text-center'>{{ message.product_id.name }}</td> 
+                                    <td class='text-center'>{{ message.title }}</td>  
+                                    <td class='text-center'>{{ message.body }}</td> 
+                                    <td class='text-center'>
+                                        {% if message.status == "EMPTY" %}
+                                            Не отправлено
+                                        {% elif message.status == "OK" %}
+                                            Разослано
+                                        {% elif message.status == "ER" %}
+                                            Ошибка при рассылке
+                                        {% endif %}
+                                    </td> 
+                                    <td class='text-center'>
+                                        {% if message.image != ""%}
+                                            Есть
+                                        {% else %}
+                                            Нет
+                                        {% endif %}
+                                    </td>
                                     <td class='text-center'>
                                         <a class="btn btn-primary text-nowrap" href="{% url 'telegram:marketing_meassage_send' message.id %}" role="button">Рассылка</a>
                                     </td>  

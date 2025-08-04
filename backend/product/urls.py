@@ -18,7 +18,7 @@ urlpatterns = [
          views.ProductUpdate.as_view(),
          name='product_update'),
     path('<int:pk>/delete/',
-         views.ProductDelete.as_view(),
+         views.ProductDeleteSite.as_view(),
          name='product_delete'),
 
     path('marketplaces/',
@@ -38,6 +38,6 @@ urlpatterns = [
          views.QrcodeCreate.as_view(),
          name='qrcode_create'),
     path('<int:pk>/qrcode-delete/',
-         views.QrcodeDelete.as_view(),
+         views.QrcodeDeleteSite.as_view(),
          name='qrcode_delete'),
 ]

@@ -60,26 +60,32 @@ class CommentProduct(models.Model):
 
 class MarketingMessage(models.Model):
     "Таблица рекламных сообщений"
+
     class Status(models.TextChoices):
         "Выбор статуса сообщения"
         OK = "OK", "Completed"
         ER = "ER", "Error"
         EM = "EMPTY", 'Empty'
-    name = models.CharField(max_length=100, null=True)
-    status = models.CharField(
-        max_length=10,
-        choices=Status.choices,
-        default=Status.EM
-    )
-    message = models.TextField()
-    image = models.ImageField(
-        upload_to='marketing/',
-        blank=True,
-        null=True,
-    )
+
     product_id = models.ForeignKey(
         Product,
         on_delete=models.SET_NULL,
         null=True,
         related_name='product_marketing'
     )
+    title = models.CharField(max_length=100, null=True)
+    body = models.TextField()
+    image = models.ImageField(
+        upload_to='marketing/',
+        blank=True,
+        null=True,
+    )
+    status = models.CharField(
+        max_length=10,
+        choices=Status.choices,
+        default=Status.EM
+    )
+    date_create = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-date_create",]

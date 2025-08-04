@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+Удаление товара
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-6 offset-md-3 text-center">
+            <form method="post">
+                {% csrf_token %}
+                <h2>Удаление карточки товара</h2>
+                <p>Карточка твоара: {{ product.name }}</p>
+                <div class="row">
+                    <div class="col">
+                        <button type='submit' class='btn btn-primary mx-3'>Удалить</button>
+                        <a class="btn btn-primary mx-3" href="{% url 'product:product_detail' product.id %}">Отменить</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

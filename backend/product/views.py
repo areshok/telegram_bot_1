@@ -1,5 +1,5 @@
 import os
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, FileResponse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, View
 
 from django.forms import inlineformset_factory
@@ -14,6 +14,8 @@ from account.models import User
 
 from django.http import HttpResponseRedirect
 
+
+from .functions import generate_qrcode
 
 # Товары
 class ProductDetail(LoginRequiredMixin, DetailView):
@@ -54,7 +56,8 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'product/product_update.html'
 
     def get_success_url(self):
-        return reverse_lazy('product:product_list')
+        pk = self.kwargs.get('pk')
+        return reverse_lazy('product:product_detail', kwargs={"pk": pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -97,6 +100,11 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
         return Marketplace.objects.exclude(id__in=existing_marketplaces)
 
 
+class ProductDeleteSite(DeleteView):
+    model = Product
+    template_name = "product/product_delete.html"
+    success_url = reverse_lazy("product:product_list")
+
 class ProductDelete(View):
     "Удаление товара"
 
@@ -119,25 +127,35 @@ class QrcodeDowdnload(LoginRequiredMixin, View):
         if not product.qrcode or not os.path.isfile(product.qrcode.path):
             raise Http404('нет файла')
 
-        with open(product.qrcode.path, 'rb') as file:
-            response = HttpResponse(file.read(), content_type='image/png')
-            response['Content-Disposition'] = (
-                f'attachment; '
-                f'filename="{os.path.basename(product.qrcode.name)}"'
-            )
-            return response
-
+        filename = os.path.basename(product.qrcode.name)
+        response = FileResponse(
+            product.qrcode.open('rb'),
+            content_type='image/png',
+            as_attachment=True,
+            filename=filename
+        )
+        return response
 
 class QrcodeCreate(LoginRequiredMixin, View):
     "Создать Qrcod"
     def get(self, request, *args, **kwargs):
         product_id = kwargs.get('pk')
         product = get_object_or_404(Product, id=product_id)
-
-        # тут создание qrcod
-
+        if product.qrcode:
+            product.qrcode.delete()
+        filename, file = generate_qrcode(product)
+        product.qrcode.save(filename, file, save=True)
         return redirect(reverse_lazy("product:product_detail", kwargs={'pk': product.id}))
 
+
+class QrcodeDeleteSite(View):
+
+    def get(self, request, *args, **kwargs):
+        product_id = kwargs.get('pk')
+        product = get_object_or_404(Product, id=product_id)
+        product.qrcode.delete()
+        product.save()
+        return redirect(reverse_lazy("product:product_detail", kwargs={"pk": product.id}))
 
 
 class QrcodeDelete(LoginRequiredMixin, View):

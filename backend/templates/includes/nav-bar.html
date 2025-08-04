@@ -8,18 +8,15 @@
         </li>
         <li class="nav-item">
             <a class="nav-link link-dark 
-            {% if request.resolver_match.view_name == 'product:product_create' %}active{% endif %}" 
-            href="{% url 'product:product_create' %}">Создать товар</a>
+            {% if request.resolver_match.view_name == 'telegram:comment_list' %}active{% endif %}" 
+            href="{% url 'telegram:comment_list' %}">Отзывы</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link link-secondary" href="#">Отзывы</a>
+            <a class="nav-link link-dark
+            {% if request.resolver_match.view_name == 'telegram:message_list' %}active{% endif %}"
+            href="{% url 'telegram:message_list' %}">Рекламные сообщения</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link link-secondary" href="{% url 'telegram:marketing_message_list' %}">Рекламные сообщения</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
+
         {% if request.user.is_staff %}
         <li>
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">

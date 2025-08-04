@@ -51,3 +51,7 @@ def get_url_marketplace_product(product_id, marketplace):
         marketplace = Marketplace.objects.get(name=marketplace)
         url = ProductMarketplace.objects.get(product_id=product, martplace_id=marketplace)
         return str(url.url)
+
+
+def send_message():
+    pass

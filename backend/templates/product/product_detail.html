@@ -5,26 +5,65 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ product.name }}</h1>
-    <p>{{ product.description }}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-3 my-3">
+        </div>
+        <div class="col">
+            <h1 class='text-center'>{{ product.name }}</h1>
+        </div>
+        <div class='col-3'>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <p><a class="btn btn-primary" href=''>Назад</a></p>
+            <p><a class="btn btn-primary" href='{% url "product:product_delete" product.id %}'>Удалить карточку твоара</a></p>
+        </div>
 
-    <!-- для теста -->
-    
-    <p>{{product.qrcode}}</p>
-    {% if product.qrcode %}
-    <img src='{{ product.qrcode.url }}'>
-    {% endif %}
-    <p><a href='{% url 'product:qrcode_delete' product.id %}'>удалить</a></p>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6">
+                    <p>{{ product.description }}</p>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        {% if product.qrcode %}
+                        <img class="rounded float-end" width="100" height="200" src='{{ product.qrcode.url }}'>
+                        {% endif %}
+                    </div>
+                    <div class="row my-3">
+                        <div class="col">
+                            <p><a class="btn btn-primary" href='{% url 'product:qrcode_delete' product.id %}'>Удалить</a></p>
+                        </div>
+                        <div class="col">
+                            <p><a class="btn btn-primary" href='{% url "product:qrcode_create" product.id %}'>Сгененировать</a></p>
+                        </div>
+                        <div class="col">
+                            <p><a class="btn btn-primary" href='{% url "product:qrcode_download" product.id %}'>Скачать</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col">
+                    <h3>Ссылки на маркетплейсы</h2>
+                    {% if marketplaces %}
+                        <ul>
+                            {% for marketplace in marketplaces %}
+                                <li>
+                                    {{ marketplace.marketplace_id.name }} <a href='{{ marketplace.url }}'>{{ marketplace.url}}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <p><a href="{% url 'product:product_update' product.id %}" class="btn btn-primary">Редактировать</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+        </div>
+    </div>
 
-    <h2>Ссылки на маркетплейсы</h2>
-    {% if marketplaces %}
-        <ul>
-            {% for marketplace in marketplaces %}
-                <li>
-                    {{ marketplace.marketplace_id.name }} <a href='{{ marketplace.url }}'>{{ marketplace.url}}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    <p>Редактировать</p>
+</div>
 {% endblock %}

@@ -9,9 +9,12 @@ import qrcode.constants
 
 from .models import Product
 
+from .functions import generate_qrcode
+
 @receiver(post_save, sender=Product)
-def generate_qr_code(sender, instance, created, **kwargs):
+def qr_code_with_create(sender, instance, created, **kwargs):
     if created:
+        '''
         qr_code_data = 'test'
 
         qr = qrcode.QRCode(
@@ -37,4 +40,6 @@ def generate_qr_code(sender, instance, created, **kwargs):
             buffer.getbuffer().nbytes,
             None,
         )
+        '''
+        filename, file = generate_qrcode(instance)
         instance.qrcode.save(filename, file, save=True)

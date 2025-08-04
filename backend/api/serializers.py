@@ -38,3 +38,10 @@ class ProductSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         marketplaces_data = validated_data.pop('marketplaces', [])
         print(marketplaces_data)
+
+
+class ProductCreateSerialize(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ("name", "description")
+
